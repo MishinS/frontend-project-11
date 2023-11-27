@@ -7,7 +7,7 @@ lint:
 server:
 	npx webpack serve
 	
-prod server:
+prodserver:
 	rm -rf dist NODE_ENV=production npx webpack
 
 
