@@ -5,7 +5,7 @@ const observers = (obj) => {
   const watchState = onChange(
     obj,
     (path, value, previousValue, applyData) => {
-      alert('value change...');
+      //alert('value change...');
       console.log('Object changed:', ++index);
       console.log('this:', this);
       console.log('path:', path);
