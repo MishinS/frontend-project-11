@@ -1,5 +1,3 @@
-import  './styles.scss';
-import  'bootstrap';
 
 import formValidation from './modules/validation.js';
 

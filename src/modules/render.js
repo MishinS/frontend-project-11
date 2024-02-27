@@ -1,3 +1,7 @@
+//import  './styles.scss';
+//import  'bootstrap';
+
+
 import i18next from 'i18next';
 import data from './translation.js';
 
