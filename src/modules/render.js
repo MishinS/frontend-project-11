@@ -10,7 +10,7 @@ const renderMsg = (value, state) => {
   const localizationData = state.localization;
   const newI = i18next.createInstance();
   newI.init({
-    lng: 'en',
+    lng: 'ru',
     //debug: true,
     resources: localizationData.localizationData.resources,
   });
