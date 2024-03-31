@@ -34,7 +34,7 @@ const renderMsg = (value, state) => {
     input.className = 'form-control w-100 is-valid';
     pMsg.className = 'feedback m-0 position-absolute small text-success';
 
-    MsgRu.code3 = 'Ссылка успешно добавлена';
+    MsgRu.code3 = 'RSS успешно загружен';
     MsgEn.code3 = 'Link was success added';
     const successMsg = newI.t('code3');
     pMsg.textContent = successMsg;
@@ -49,7 +49,7 @@ const renderMsg = (value, state) => {
       pMsg.textContent = typeURLErr;
     }
     if (value.type === 'notOneOf') {
-      MsgRu.code2 = 'Данный УРЛ уже добавлен';
+      MsgRu.code2 = 'RSS уже существует';
       MsgEn.code2 = value.message;
       const typeNotOneOfErr = newI.t('code2');
       pMsg.textContent = typeNotOneOfErr;
