@@ -43,7 +43,7 @@ const renderMsg = (value, state) => {
     pMsg.className = 'feedback m-0 position-absolute small text-danger';
 
     if (value.type === 'url') {
-      MsgRu.code1 = 'Должен быть УРЛ адрес';
+      MsgRu.code1 = 'Ссылка должна быть валидным URL';
       MsgEn.code1 = value.message;
       const typeURLErr = newI.t('code1');
       pMsg.textContent = typeURLErr;
