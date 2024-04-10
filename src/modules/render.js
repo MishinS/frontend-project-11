@@ -48,8 +48,15 @@ const renderMsg = (value, state) => {
       const typeNotOneOfErr = newI.t('code5');
       pMsg.textContent = typeNotOneOfErr;
     }
+    if (state.linksError === true) {
+          MsgRu.code6 = 'Ресурс не содержит валидный RSS';
+          MsgEn.code6 = value.message;
+          const typeURLErr = newI.t('code6');
+          pMsg.textContent = typeURLErr;
+        
+      }
 
-    if (value.type === 'url') {
+    if (value.type === 'url' && state.linksError === false) {
       MsgRu.code1 = 'Ссылка должна быть валидным URL';
       MsgEn.code1 = value.message;
       const typeURLErr = newI.t('code1');
