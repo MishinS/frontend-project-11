@@ -13,6 +13,8 @@ const valid = (link, state) => {
   validation(link, currentCollection)
     .then((currentLink) => {
       state.validate = true;
+      state.networkError = false;
+      state.linksError = false;
       state.collection.push(currentLink);
       const arrData = [];
 
