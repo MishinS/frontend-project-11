@@ -29,7 +29,7 @@ const renderMsg = (value, state) => {
     divExample.append(pMsg);
   }
 
-  if (state.validate === true) {
+  if (state.validate === true && state.networkError === false && state.linksError === false) {
     // Render validate msg
     input.className = 'form-control w-100 is-valid';
     pMsg.className = 'feedback m-0 position-absolute small text-success';
@@ -41,6 +41,13 @@ const renderMsg = (value, state) => {
   } else if (state.validate === false) {
     input.className = 'form-control w-100 is-invalid';
     pMsg.className = 'feedback m-0 position-absolute small text-danger';
+
+    if (state.networkError === true) {
+      MsgRu.code5 = 'Ошибка сети';
+      MsgEn.code5 = value.errors.url;
+      const typeNotOneOfErr = newI.t('code5');
+      pMsg.textContent = typeNotOneOfErr;
+    }
 
     if (value.type === 'url') {
       MsgRu.code1 = 'Ссылка должна быть валидным URL';
@@ -54,6 +61,13 @@ const renderMsg = (value, state) => {
       const typeNotOneOfErr = newI.t('code2');
       pMsg.textContent = typeNotOneOfErr;
     }
+    if (value.type === 'required') {
+      MsgRu.code4 = 'Не должно быть пустым';
+      MsgEn.code4 = value.message;
+      const typeNotOneOfErr = newI.t('code4');
+      pMsg.textContent = typeNotOneOfErr;
+    }
+    console.log(value.type)
   }
 };
 // Create post & feed containers, render posts & feeds elements
@@ -117,7 +131,7 @@ const renderPosts = (state) => {
 
       a.textContent = post.post;
 
-      button.textContent = 'viewing';
+      button.textContent = 'Просмотр';
 
       button.addEventListener('click', () => {
         titleModal.textContent = post.post;

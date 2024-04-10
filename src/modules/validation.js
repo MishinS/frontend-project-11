@@ -1,5 +1,4 @@
 import getData from './data.js';
-import render from './render.js';
 import * as yup from 'yup';
 import _ from 'lodash';
 import { renderMsg, renderPostsContainer, renderFeedsContainer, renderP, renderF} from './render.js';
@@ -28,8 +27,9 @@ const valid = (link, state) => {
         state.collection.map((item) => {
           const currentData = getData(item)
           currentData.then((data) => {
-            renderMsg(link, state);
-
+            //state.validate = true;
+            state.networkError = false;            
+            renderMsg(link, state);            
             data.feeds.map((feed) => {
               state.datas.feeds.push(feed)
             })
@@ -42,7 +42,30 @@ const valid = (link, state) => {
                 }
               })
               renderF(state);      
-              renderP(state);            
+              renderP(state);
+              const ul = document.getElementById('P_10')
+              
+                ul.addEventListener('click', e => {
+                  e.preventDefault()                
+                  const lin = e.target.href
+                  const validationLinksRss = (link) => {
+                      const schemaStr = yup.string().required().url().trim();
+                      return schemaStr.validate(link).then((url) => {
+                        state.linksError = false;
+                        return url
+                      });
+                    }
+                    const j = 'err' + lin;                    
+                    validationLinksRss(j).then(k=> k).catch(err => {                
+                      state.validate = false;
+                      state.linksError = true;
+                      renderMsg(err, state)
+                })
+              })            
+          }).catch((err) => {
+            state.validate = false;
+            state.networkError = true;            
+            renderMsg(err, state);
           })
           setTimeout(() => {
             render();
@@ -51,7 +74,7 @@ const valid = (link, state) => {
       };    
      render();
     })  
-    .catch((err) => {      
+    .catch((err) => {
       state.validate = false;
       renderMsg(err, state);
   })

@@ -24,13 +24,14 @@ const request = (url) =>
 
       const newError = new Error();
       newError.errors = networkErrors;
-
+      
       throw newError;
     });
 
 const getData = (link) => {
-  
+
   return request(link).then((rssData) => {
+    //console.log(rssData)
     const data = {};
     const postss = [];
     const feedss = [];
@@ -39,7 +40,7 @@ const getData = (link) => {
       'text/xml'
     );
     const items = xmlDocument.querySelectorAll('item');
-    const rsss = xmlDocument.querySelectorAll('rss');    
+    const rsss = xmlDocument.querySelectorAll('rss');
     const itemsArr = [...items];
     const rssArr = [...rsss];
 
@@ -63,12 +64,17 @@ const getData = (link) => {
         feed: `${titleM.textContent}`,
         description: `${description.textContent}`,
         link: `${link.textContent}`,
-        
+
       });
       data.feeds = feedss;
     })
     return data;
-  });
+  }).catch((error) => {
+    //console.log(error.errors)
+    error.errors
+
+    throw error;
+  })
 };
 
 

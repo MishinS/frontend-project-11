@@ -12,6 +12,7 @@ const state = {
   },
   collection: [],
   localization: localizationData,
+  networkError: false,
 };
 
 // Handler
