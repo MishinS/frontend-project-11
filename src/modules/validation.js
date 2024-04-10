@@ -55,8 +55,8 @@ const valid = (link, state) => {
                         return url
                       });
                     }
-                    const j = 'err' + lin;                    
-                    validationLinksRss(j).then(k=> k).catch(err => {                
+                    //const j = 'err' + lin;                    
+                    validationLinksRss(lin).then(k=> k).catch(err => {                
                       state.validate = false;
                       state.linksError = true;
                       renderMsg(err, state)
