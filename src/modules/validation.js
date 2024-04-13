@@ -48,7 +48,10 @@ const valid = (link, state) => {
             renderF(state);
             renderP(state);
             // code 1 code2 or throw errors!!!
-            
+            const ul = document.getElementById('P_10')
+            ul.addEventListener('click', e => {
+                  e.preventDefault()                
+                  const lin = e.target.href
               const validationLinksRss = (links) => {
                 const schemaStr = yup.string().required().url().trim();
                 return schemaStr.validate(links).then((url) => {
@@ -57,16 +60,16 @@ const valid = (link, state) => {
                 });
               }
 
-              data.posts.map((post) => {
-                //const j = 'err' + post.link
-                validationLinksRss(post.link).then(k=> k).catch(err => {
+              //data.posts.map((post) => {
+                const j = 'err' + lin
+                validationLinksRss(j).then(k=> k).catch(err => {
                   state.validate = false;
                   state.other = false; 
                   state.linksError = true;
                   renderMsg(err, state)
                 })  
-              })
-            
+              //})
+            })
           }).catch((err) => {
             state.validate = false;
             state.networkError = true;
