@@ -29,7 +29,7 @@ const renderMsg = (value, state) => {
     divExample.append(pMsg);
   }
 
-  if (state.validate === true && state.networkError === false && state.linksError === false) {
+  if (state.validate === true && state.networkError === false && state.linksError === false && state.other === false) {
     // Render validate msg
     input.className = 'form-control w-100 is-valid';
     pMsg.className = 'feedback m-0 position-absolute small text-success';
@@ -41,14 +41,14 @@ const renderMsg = (value, state) => {
   } else if (state.validate === false) {
     input.className = 'form-control w-100 is-invalid';
     pMsg.className = 'feedback m-0 position-absolute small text-danger';
-
+    //console.log(state)
     if (state.networkError === true) {
       MsgRu.code5 = 'Ошибка сети';
       MsgEn.code5 = value.errors.url;
       const typeNotOneOfErr = newI.t('code5');
       pMsg.textContent = typeNotOneOfErr;
     }
-    if (state.linksError === true) {
+    if (state.linksError === true && state.other === false) {
           MsgRu.code6 = 'Ресурс не содержит валидный RSS';
           MsgEn.code6 = value.message;
           const typeURLErr = newI.t('code6');
@@ -56,7 +56,7 @@ const renderMsg = (value, state) => {
         
       }
 
-    if (value.type === 'url' && state.linksError === false) {
+    if (value.type === 'url' && state.other === true) {
       MsgRu.code1 = 'Ссылка должна быть валидным URL';
       MsgEn.code1 = value.message;
       const typeURLErr = newI.t('code1');
@@ -74,7 +74,7 @@ const renderMsg = (value, state) => {
       const typeNotOneOfErr = newI.t('code4');
       pMsg.textContent = typeNotOneOfErr;
     }
-    console.log(value.type)
+    //console.log(value.type)
   }
 };
 // Create post & feed containers, render posts & feeds elements

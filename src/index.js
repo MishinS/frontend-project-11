@@ -13,6 +13,8 @@ const state = {
   collection: [],
   localization: localizationData,
   networkError: false,
+  linksError: false,
+  other: false,
 };
 
 // Handler
