@@ -15,6 +15,7 @@ const state = {
   networkError: false,
   linksError: false,
   other: false,
+  noUrl: false,
 };
 
 // Handler

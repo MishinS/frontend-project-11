@@ -15,6 +15,7 @@ const valid = (link, state) => {
       state.validate = true;
       state.networkError = false;
       state.linksError = false;
+      state.noUrl = false;
       state.collection.push(currentLink);
       const arrData = [];
 
@@ -29,10 +30,20 @@ const valid = (link, state) => {
         state.collection.map((item) => {
           const currentData = getData(item)
           currentData.then((data) => {
+            if (data === null) {
+              state.validate = false;
+              state.noUrl = true;
+              //state.networkError = false;
+              //state.linksError = false;
+              //state.other = false;
+              renderMsg(link, state);
+              //throw console.log('Error') 
+            } else {
             state.validate = true;
-            state.networkError = false;
-            state.linksError = false;
-            
+            //state.networkError = false;
+            //state.linksError = false;
+            state.noUrl = false;
+            //state.other = false;
             renderMsg(link, state);
             data.feeds.map((feed) => {
               state.datas.feeds.push(feed)
@@ -61,21 +72,26 @@ const valid = (link, state) => {
               }
 
               //data.posts.map((post) => {
-                const j = 'err' + lin
-                validationLinksRss(j).then(k=> k).catch(err => {
+                //const j = 'err' + lin
+                validationLinksRss(lin).then(k=> k).catch(err => {
                   state.validate = false;
                   state.other = false; 
-                  state.linksError = true;
+                  state.linksError = false;
+                  state.noUrl = true;
+                  state.other = false;
                   renderMsg(err, state)
                 })  
               //})
             })
+          }
           }).catch((err) => {
             state.validate = false;
             state.networkError = true;
             state.other = false;
+            state.noUrl = false;
             renderMsg(err, state);
           })
+        
           setTimeout(() => {
             render();
           }, 5000);
@@ -84,13 +100,15 @@ const valid = (link, state) => {
       render();
     })
     .catch((err) => {
+      //console.log(err)
       state.validate = false;
       state.linksError = false;
       state.networkError = false;
       state.other = true;
+      state.noUrl = false;
       renderMsg(err, state);
     })
-    
+    console.log(state)
 };
 
 export default valid;

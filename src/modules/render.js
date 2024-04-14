@@ -29,7 +29,7 @@ const renderMsg = (value, state) => {
     divExample.append(pMsg);
   }
 
-  if (state.validate === true && state.networkError === false && state.linksError === false && state.other === false) {
+  if (state.validate === true && state.networkError === false && state.linksError === false && state.other === false && state.noUrl === false) {
     // Render validate msg
     input.className = 'form-control w-100 is-valid';
     pMsg.className = 'feedback m-0 position-absolute small text-success';
@@ -48,7 +48,7 @@ const renderMsg = (value, state) => {
       const typeNotOneOfErr = newI.t('code5');
       pMsg.textContent = typeNotOneOfErr;
     }
-    if (state.linksError === true && state.other === false) {
+    if (state.other === false && state.linksError === true || state.noUrl === true) {
           MsgRu.code6 = 'Ресурс не содержит валидный RSS';
           MsgEn.code6 = value.message;
           const typeURLErr = newI.t('code6');

@@ -15,12 +15,13 @@ const request = (url) =>
     .then((response) => response)
     .catch((error) => {
       const networkErrors = {};
-
+      
       if (error.response) {
         networkErrors.url = 'errors.network.invalidStatus';
       } else {
         networkErrors.url = 'errors.network.invalidResponse';
       }
+      
 
       const newError = new Error();
       newError.errors = networkErrors;
@@ -31,7 +32,6 @@ const request = (url) =>
 const getData = (link) => {
 
   return request(link).then((rssData) => {
-    //console.log(rssData)
     const data = {};
     const postss = [];
     const feedss = [];
@@ -44,7 +44,7 @@ const getData = (link) => {
     const itemsArr = [...items];
     const rssArr = [...rsss];
 
-    itemsArr.map((item) => {
+    itemsArr.map((item) => {      
       const title = item.querySelector('title');
       const link = item.querySelector('link');
       const desc = item.querySelector('description');
@@ -68,9 +68,12 @@ const getData = (link) => {
       });
       data.feeds = feedss;
     })
+    if (feedss.length === 0) {
+      return null
+    }
     return data;
   }).catch((error) => {
-    //console.log(error.errors)
+       
     error.errors
 
     throw error;
