@@ -1,7 +1,13 @@
-import getData from './data.js';
+/* eslint-disable array-callback-return */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-shadow */
+/* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup';
 import _ from 'lodash';
-import { renderMsg, renderPostsContainer, renderFeedsContainer, renderP, renderF} from './render.js';
+import getData from './data.js';
+import {
+  renderMsg, renderPostsContainer, renderFeedsContainer, renderP, renderF,
+} from './render.js';
 
 const valid = (link, state) => {
   const validation = (link, collect) => {
@@ -23,93 +29,58 @@ const valid = (link, state) => {
       renderPostsContainer();
 
       if (state.collection.length !== 0) {
-        state.subvalidate = 'ok'
+        state.subvalidate = 'ok';
       }
 
       const render = () => {
         state.collection.map((item) => {
-          const currentData = getData(item)
+          const currentData = getData(item);
           currentData.then((data) => {
             if (data === null) {
               state.validate = false;
               state.noUrl = true;
-              //state.networkError = false;
-              //state.linksError = false;
-              //state.other = false;
               renderMsg(link, state);
-              //throw console.log('Error') 
             } else {
-            state.validate = true;
-            //state.networkError = false;
-            //state.linksError = false;
-            state.noUrl = false;
-            //state.other = false;
-            renderMsg(link, state);
-            data.feeds.map((feed) => {
-              state.datas.feeds.push(feed)
-            })
+              state.validate = true;
+              state.noUrl = false;
+              renderMsg(link, state);
+              data.feeds.map((feed) => {
+                state.datas.feeds.push(feed);
+              });
 
-            data.posts.map((post) => {
-              const h = !_.includes(arrData, post.link)
-              if (h === true) {
-                arrData.push(post.link)
-                state.datas.posts.push(post)
-              }
-            })
-            renderF(state);
-            renderP(state);
-            // code 1 code2 or throw errors!!!
-            // const ul = document.getElementById('P_10')
-            // ul.addEventListener('click', e => {
-            //       e.preventDefault()                
-            //       const lin = e.target.href
-            //   const validationLinksRss = (links) => {
-            //     const schemaStr = yup.string().required().url().trim();
-            //     return schemaStr.validate(links).then((url) => {
-            //       state.linksError = false;
-            //       return url
-            //     });
-            //   }
-
-            //   //data.posts.map((post) => {
-            //     //const j = 'err' + lin
-            //     validationLinksRss(lin).then(k=> k).catch(err => {
-            //       state.validate = false;
-            //       state.other = false; 
-            //       state.linksError = false;
-            //       state.noUrl = true;
-            //       state.other = false;
-            //       renderMsg(err, state)
-            //     })  
-              //})
-            // })
-          }
+              data.posts.map((post) => {
+                const h = !_.includes(arrData, post.link);
+                if (h === true) {
+                  arrData.push(post.link);
+                  state.datas.posts.push(post);
+                }
+              });
+              renderF(state);
+              renderP(state);
+            }
           }).catch((err) => {
             state.validate = false;
             state.networkError = true;
             state.other = false;
             state.noUrl = false;
             renderMsg(err, state);
-          })
-        
+          });
+
           setTimeout(() => {
             render();
           }, 5000);
-        })
+        });
       };
       render();
     })
     .catch((err) => {
-      //console.log(err)
       state.validate = false;
       state.linksError = false;
       state.networkError = false;
       state.other = true;
       state.noUrl = false;
       renderMsg(err, state);
-    })
-    console.log(state)
+    });
 };
 
 export default valid;
-

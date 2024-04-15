@@ -1,22 +1,22 @@
-//import  './styles.scss';
-//import  'bootstrap';
-
-
+/* eslint-disable no-param-reassign */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable array-callback-return */
+/* eslint-disable import/no-extraneous-dependencies */
 import i18next from 'i18next';
 import _ from 'lodash';
 
-// Initialization i18next, set translation msg. 
+// Initialization i18next, set translation msg.
 const renderMsg = (value, state) => {
   const localizationData = state.localization;
   const newI = i18next.createInstance();
   newI.init({
     lng: 'ru',
-    //debug: true,
+    debug: true,
     resources: localizationData.localizationData.resources,
   });
 
-  let MsgRu = localizationData.localizationData.resources.ru.translation;
-  let MsgEn = localizationData.localizationData.resources.en.translation;
+  const MsgRu = localizationData.localizationData.resources.ru.translation;
+  const MsgEn = localizationData.localizationData.resources.en.translation;
 
   // Render info msgs & input border style
 
@@ -29,7 +29,13 @@ const renderMsg = (value, state) => {
     divExample.append(pMsg);
   }
 
-  if (state.validate === true && state.networkError === false && state.linksError === false && state.other === false && state.noUrl === false) {
+  if (
+    state.validate === true
+    && state.networkError === false
+    && state.linksError === false
+    && state.other === false
+    && state.noUrl === false
+  ) {
     // Render validate msg
     input.className = 'form-control w-100 is-valid';
     pMsg.className = 'feedback m-0 position-absolute small text-success';
@@ -41,20 +47,19 @@ const renderMsg = (value, state) => {
   } else if (state.validate === false) {
     input.className = 'form-control w-100 is-invalid';
     pMsg.className = 'feedback m-0 position-absolute small text-danger';
-    //console.log(state)
+
     if (state.networkError === true) {
       MsgRu.code5 = 'Ошибка сети';
       MsgEn.code5 = value.errors.url;
       const typeNotOneOfErr = newI.t('code5');
       pMsg.textContent = typeNotOneOfErr;
     }
-    if (state.other === false && state.linksError === true || state.noUrl === true) {
-          MsgRu.code6 = 'Ресурс не содержит валидный RSS';
-          MsgEn.code6 = value.message;
-          const typeURLErr = newI.t('code6');
-          pMsg.textContent = typeURLErr;
-        
-      }
+    if (state.other === false && (state.linksError === true || state.noUrl === true)) {
+      MsgRu.code6 = 'Ресурс не содержит валидный RSS';
+      MsgEn.code6 = value.message;
+      const typeURLErr = newI.t('code6');
+      pMsg.textContent = typeURLErr;
+    }
 
     if (value.type === 'url' && state.other === true) {
       MsgRu.code1 = 'Ссылка должна быть валидным URL';
@@ -74,7 +79,6 @@ const renderMsg = (value, state) => {
       const typeNotOneOfErr = newI.t('code4');
       pMsg.textContent = typeNotOneOfErr;
     }
-    //console.log(value.type)
   }
 };
 // Create post & feed containers, render posts & feeds elements
@@ -110,8 +114,8 @@ const renderPosts = (state) => {
     const arrUlPNodeChilde = [...ulPP.childNodes];
     arrUlPNodeChilde.map((child) => child.remove());
 
-    let arrLinksElementsA = [];
-    let arrElementsA = [];
+    const arrLinksElementsA = [];
+    const arrElementsA = [];
     posts.map((post) => {
       const li = document.createElement('li');
       const a = document.createElement('a');
@@ -119,7 +123,7 @@ const renderPosts = (state) => {
 
       li.setAttribute(
         'class',
-        'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0'
+        'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0',
       );
       li.setAttribute('id', 'P_30');
 
@@ -151,7 +155,6 @@ const renderPosts = (state) => {
 
       // Set clicked links
       li.addEventListener('click', (e) => {
-        //e.preventDefault();
         const currentTarget = e.target.parentNode.childNodes[0];
         state.clicked.push(currentTarget);
         currentTarget.setAttribute('class', 'fw-normal');
@@ -162,7 +165,7 @@ const renderPosts = (state) => {
     const links = arrUniqLinks.map((e) => e.href);
     const newObject = new Set(links);
     const arrNotClickedLinks = arrLinksElementsA.filter((e) => !newObject.has(e));
-    arrElementsA.map((l) => {     
+    arrElementsA.map((l) => {
       const t = !_.includes(arrNotClickedLinks, l.href);
       if (t !== true) {
         l.setAttribute('class', 'fw-bold');
@@ -249,4 +252,3 @@ export {
   renderF,
   renderP,
 };
-
